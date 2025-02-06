@@ -1,14 +1,26 @@
-import mysql.connector
+import psycopg2
+import os
 
-# Connect to MySQL
-conn = mysql.connector.connect(
-    host="localhost",
-    user="root",  # Default XAMPP username
-    password="",  # Default XAMPP password (empty)
-    database="bincom_test"
-)
+# PostgreSQL connection URL from Render
+DATABASE_URL = "postgresql://my_poll_app_db_user:omGvoatPyrOvjKdj49Ggucv6LZiNsJz8@dpg-cuigbld6l47c73af4p40-a.oregon-postgres.render.com/my_poll_app_db"
 
-if conn.is_connected():
-    print("✅ Successfully connected to MySQL!")
+try:
+    # Connect to PostgreSQL
+    conn = psycopg2.connect(DATABASE_URL)
+    print("✅ Successfully connected to PostgreSQL!")
 
-conn.close()
+    # Create a cursor
+    cursor = conn.cursor()
+
+    # Test the connection (optional)
+    cursor.execute("SELECT version();")
+    db_version = cursor.fetchone()
+    print("Database Version:", db_version)
+
+    # Close connection
+    cursor.close()
+    conn.close()
+    print("🔒 Connection closed.")
+
+except Exception as e:
+    print("❌ Connection failed:", e)
