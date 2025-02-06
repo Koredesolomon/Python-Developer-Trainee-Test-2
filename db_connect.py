@@ -4,6 +4,15 @@ import os
 # PostgreSQL connection URL from Render
 DATABASE_URL = "postgresql://my_poll_app_db_user:omGvoatPyrOvjKdj49Ggucv6LZiNsJz8@dpg-cuigbld6l47c73af4p40-a.oregon-postgres.render.com/my_poll_app_db"
 
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Access the variable
+db_url = os.getenv("DATABASE_URL")
+print("Database URL:", db_url)
+
 try:
     # Connect to PostgreSQL
     conn = psycopg2.connect(DATABASE_URL)
